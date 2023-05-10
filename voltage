@@ -1,0 +1,119 @@
+Please share your Github Project link here (https://github.com/aftabmd7860/siemens/new/main). Make sure it&#x27;s accessible to all. Further, give clear instructions in the readme.md as to how to use your work and test it!
+
+Otherwise, we can not evaluate your work.
+
+#include
+
+#include
+
+#include
+
+#include
+
+#include
+
+std::string genearteNetlist(double capacitance,double voltage,double current){
+
+std::string netlist =R&quot;(
+
+*Transistor-based current source charging a capacitor
+
+*components
+
+Q1 N1 N2 N3 NPN
+
+R1 N1 N2 10k
+
+R2 N2 N3 10K
+
+C1 N3 O {})&quot;;
+
+netlist = std:: regex_replace(netlist,std:: regex(R&quot;(\{\})&quot;),std::to_string(capacitance));
+
+netlist = std:: regex_replace(netlist,std:: regex(R&quot;(\{\})&quot;),std::to_string(voltage));
+
+netlist = std:: regex_replace(netlist,std:: regex(R&quot;(\{\})&quot;),std::to_string(current));
+
+return netlist;
+
+}
+
+void  writeNetlistToFile(const std:: string&amp; netlist)
+
+{
+
+std:: ofstream file(&quot;current_source.cir&quot;);
+
+if(file.is_open())
+
+{
+
+file &lt;&lt; netlist;
+
+file.close();
+
+}
+
+else{
+
+std:: cerr &lt;&lt; &quot;&quot;failed to open &quot;&lt; runLtspiceSimulation()
+
+{
+
+std::vectorcapacitorVoltage;
+
+int result = system(&quot;ltspice -b current_source.cir raw_results.raw&gt; /dev/null&quot;);
+
+if(result == -1)
+
+{
+
+std:: cerr &lt;&lt; &quot;failed to execute ltspice simulation&quot; &lt;&gt; time &gt;&gt; voltage;
+
+capacitorVoltage.push_back(voltage);
+
+}
+
+file.close();
+
+}
+
+else
+
+{
+
+std:: cerr &lt;&lt; &quot;failed to open raw result&quot;&lt;&lt; std:: end1;
+
+}
+
+return capacitorVoltage;
+
+}
+
+int main()
+
+{
+
+double capacitance = 94e-3;
+
+double voltage = 2.7;
+
+std:: vector currents = {1.25e-3,0.75};
+
+for(const auto&amp; current : currents)
+
+{
+
+std:: string netList = generateNetlist(capacitance,voltage,current);
+
+writeNetlistToFile(netlist);
+
+std::vector capacitorVoltages = runLtspiceSimulation();
+
+std::cout &lt;&lt; &quot;capacitor Voltage (current = &quot; &lt;&lt; current &lt;&lt;&quot; A);
+
+}
+
+}
+
+

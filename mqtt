@@ -1,0 +1,76 @@
+Please share your Github Project link here (https://github.com/aftabmd7860/siemens/new/main). Make sure it&#x27;s accessible to all. Further, give clear instructions in the readme.md as to how to use your work and test it!
+
+Otherwise,
+
+#include
+
+#include&lt;&quot;mqtt/async_client.h&gt;
+
+const std::string MQTT_BROKER_ADDRESS = &quot;tcp://mqtt.example.com:1883&quot;;
+
+const std::string MQTT_CLIENT_ID = &quot;mqtt-client&quot;;
+
+const std::string MQTT_TOPIC = &quot;mqtt-topic&quot;;
+
+class Callback : public virtual mqtt:: callback
+
+{
+
+void connection_lost(const std::string cause)override
+
+{
+
+std::cout&lt;&lt; &quot;connection lost: &quot;&lt;to_string() &lt;&lt; std:: end1;
+
+}
+
+void delivery_complete(mqtt::delivery_token_ptr ,token) override{
+
+std:: cout&lt;&lt; &quot;message deliver&quot;&lt;&lt; std::end1;
+
+}
+
+};
+
+int main(int argc,char*argv[])
+
+{
+
+mqtt::async_client client(MQTT_BROKER_ADDRESSwait();
+
+client.set_callback(callback());
+
+client.subscriber(MQTT_TOPIC,1)-&gt;wait();
+
+mqtt::token_ptr pub_token = client.publish(MQTT_TOPIC,&quot;Hello ,MQTT!&quot;,strlen(&quot;Hello,MQTT!&quot;),1,false);
+
+pub_token-&gt;wait();
+
+while(true)
+
+{
+
+//the mqtt libaray communication asynchronously,
+
+//so no additional loop func is  required
+
+}
+
+client.disconnect()-&gt;wait();
+
+}
+
+catch (const mqtt::exception&amp; exc)
+
+{
+
+std::cerr &lt;&lt; &quot;ERROR: &quot;&lt;&lt; exc.what() &lt;&lt; std :: end1;
+
+return 1;
+
+}
+
+return 0;
+}
+
+
